@@ -16,40 +16,6 @@ Kalman kalmanY1;
 Kalman kalmanX2;
 Kalman kalmanY2;
 
-// voltages for the sensors on the Left side
-float voltageL1 = 0.0;
-float voltageL2 = 0.0;
-float voltageL3 = 0.0;
-float voltageL4 = 0.0;
-float voltageL5 = 0.0;
-float voltageL6 = 0.0;
-float voltageL7 = 0.0;
-
-// voltages for the sensors on the Right side
-float voltageR1 = 0.0;
-float voltageR2 = 0.0;
-float voltageR3 = 0.0;
-float voltageR4 = 0.0;
-float voltageR5 = 0.0;
-float voltageR6 = 0.0;
-float voltageR7 = 0.0;
-//sensor inputs for the Left and Right sides
-int sensorsL1 = 0;
-int sensorsL2 = 0;
-int sensorsL3 = 0;
-int sensorsL4 = 0;
-int sensorsL5 = 0;
-int sensorsL6 = 0;
-int sensorsL7 = 0;
-int sensorsR1 = 0;
-int sensorsR2 = 0;
-int sensorsR3 = 0;
-int sensorsR4 = 0;
-int sensorsR5 = 0;
-int sensorsR6 = 0;
-int sensorsR7 = 0;
-int count = 0;
-
 double accX1, accY1, accZ1, accX2, accY2, accZ2;
 double gyroX1, gyroY1, gyroZ1, gyroX2, gyroY2, gyroZ2;
 int16_t tempRaw;
@@ -61,8 +27,8 @@ double kalAngleX1, kalAngleY1, kalAngleX2, kalAngleY2; // Calculated angle using
 uint32_t timer;
 int16_t ax1, ax2, ay1, ay2, az1, az2, gx1, gx2, gy1, gy2, gz1, gz2;
 // make the gyros
-MPU6050 gyro1(0x68);
-MPU6050 gyro2(0x69);
+MPU6050 gyro1(0x68);    //Port MPU6050-1  Default
+MPU6050 gyro2(0x69);    //Port MPU6050-2
 
 void setup() {
   // pinMode(2, OUTPUT); //s0
@@ -186,65 +152,6 @@ void loop() {
     gyroX2angle = kalAngleX2;
   if (gyroY2angle < -180 || gyroY2angle > 180)
     gyroY2angle = kalAngleY2;
-  for (count = 0; count <= 13; count ++) {
-    // Grabbing pressure sensor data inputs and convert them to volatages.
-    if (count == 0) {
-      sensorsL1 = analogRead(A0); //change number for pin
-      voltageL1 = sensorsL1 * (5.0 / 1023.0);
-    }
-    if (count == 1) {
-      sensorsL2 = analogRead(A1); //change number for pin
-      voltageL2 = sensorsL2 * (5.0 / 1023.0);
-    }
-    if (count == 2) {
-      sensorsL3 = analogRead(A2); //change number for pin
-      voltageL3 = sensorsL3 * (5.0 / 1023.0);
-    }
-    if (count == 3) {
-      sensorsL4 = analogRead(A3); //change number for pin
-      voltageL4 = sensorsL4 * (5.0 / 1023.0);
-    }
-    if (count == 4) {
-      sensorsL5 = analogRead(A4); //change number for pin
-      voltageL5 = sensorsL5 * (5.0 / 1023.0);
-    }
-    if (count == 5) {
-      sensorsL6 = analogRead(A5); //change number for pin
-      voltageL6 = sensorsL6 * (5.0 / 1023.0);
-    }
-    if (count == 6) {
-      sensorsL7 = analogRead(A6); //change number for pin
-      voltageL7 = sensorsL7 * (5.0 / 1023.0);
-    }
-    if (count == 7) {
-      sensorsR1 = analogRead(A7); //change number for pin
-      voltageR1 = sensorsR1 * (5.0 / 1023.0);
-    }
-    if (count == 8) {
-      sensorsR2 = analogRead(A8); //change number for pin
-      voltageR2 = sensorsR2 * (5.0 / 1023.0);
-    }
-    if (count == 9) {
-      sensorsR3 = analogRead(A9); //change number for pin
-      voltageR3 = sensorsR3 * (5.0 / 1023.0);
-    }
-    if (count == 10) {
-      sensorsR4 = analogRead(A10); //change number for pin
-      voltageR4 = sensorsR4 * (5.0 / 1023.0);
-    }
-    if (count == 11) {
-      sensorsR5 = analogRead(A11); //change number for pin
-      voltageR5 = sensorsR5 * (5.0 / 1023.0);
-    }
-    if (count == 12) {
-      sensorsR6 = analogRead(A12); //change number for pin
-      voltageR6 = sensorsR6 * (5.0 / 1023.0);
-    }
-    if (count == 13) {
-      sensorsR7 = analogRead(A13); //change number for pin
-      voltageR7 = sensorsR7 * (5.0 / 1023.0);
-    }
-  }
 
   // Send the all of the gyro data and sensor data to the serial port
   //first set print
@@ -269,22 +176,6 @@ void loop() {
   Serial.print(compAngleY2); Serial.print("\t");
   Serial.print(kalAngleY2); Serial.print("\t");
   Serial.print("\t");
-  //pressure sensor print
-  Serial.print(voltageL1); Serial.print("\t");
-  Serial.print(voltageL2); Serial.print("\t");
-  Serial.print(voltageL3); Serial.print("\t");
-  Serial.print(voltageL4); Serial.print("\t");
-  Serial.print(voltageL5); Serial.print("\t");
-  Serial.print(voltageL6); Serial.print("\t");
-  Serial.print(voltageL7); Serial.print("\t");
-  Serial.print("\t");
-  Serial.print(voltageR1); Serial.print("\t");
-  Serial.print(voltageR2); Serial.print("\t");
-  Serial.print(voltageR3); Serial.print("\t");
-  Serial.print(voltageR4); Serial.print("\t");
-  Serial.print(voltageR5); Serial.print("\t");
-  Serial.print(voltageR6); Serial.print("\t");
-  Serial.print(voltageR7); Serial.print("\t");
-  Serial.println("\t");
+
   delay(2);
 }
